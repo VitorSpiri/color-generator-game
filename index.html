@@ -10,7 +10,12 @@
 <body>
     <section class="grid-section">
         <figure class="figure-container"></figure>
-        <input type="text" class="input-color"/>
+
+        <div class="container-flex">
+            <input type="text" class="input-color"/>
+            <button id="enviarResposta">Enviar</button>
+            <button id="btnConsultaAPI">Consultar API</button>
+        </div>
         
         <div>Resposta Teste:</div>
         <div id="teste-resposta"></div>
@@ -19,7 +24,6 @@
 
         </div>
 
-        <button id="btnConsultaAPI">Consultar API</button>
     </section>
 </body>
 
@@ -64,8 +68,10 @@
 
             const gameSection = document.getElementById('game-section')
 
-            gameSection.childNodes.forEach((item) => {
-                delete item
+            const gameSectionInputList = gameSection.querySelectorAll('#game-section input')
+
+            gameSectionInputList.forEach((item) => {
+                item.remove()
             })
             
             data.name.value.split('').forEach((letter, index) => {
@@ -75,6 +81,11 @@
                 inputGame.classList.add('input-game-letter')
                 inputGame.addEventListener('keyup', alteraFocus)
                 gameSection.appendChild(inputGame)
+                
+                if (letter === " "){
+                    inputGame.disabled = true
+                    inputGame.value = '-'
+                }
 
             })
 

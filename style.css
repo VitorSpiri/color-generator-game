@@ -46,3 +46,7 @@ body{
     text-transform: uppercase;
     
 }
+
+.container-flex{
+    display: flex;
+}
