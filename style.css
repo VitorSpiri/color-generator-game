@@ -1,0 +1,48 @@
+body, p, input, figure, ul, h1, h2, h3, h4, h5, h6 {
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    background-color: rgb(251, 245, 212);
+    height: 100vh;
+    display: grid;
+    grid-template-rows: 5% 70% 25%;
+}
+
+.grid-section{
+    grid-row: 2/3;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    gap: 1rem;
+}
+
+.figure-container{
+    width: 230px;
+    height: 230px;
+    background-color: black;
+}
+
+.input-color{
+    height: 2rem;
+}
+
+#game-section{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.input-game-letter{
+    text-align: center;
+    background: transparent;
+    width: 50px;
+    border: 1px solid;
+    border-radius: 6px;
+    font-size: 18px;
+    height: 50px;
+    text-transform: uppercase;
+    
+}

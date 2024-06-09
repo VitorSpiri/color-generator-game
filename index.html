@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Generate</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section class="grid-section">
+        <figure class="figure-container"></figure>
+        <input type="text" class="input-color"/>
+        
+        <div>Resposta Teste:</div>
+        <div id="teste-resposta"></div>
+
+        <div id="game-section">
+
+        </div>
+
+        <button id="btnConsultaAPI">Consultar API</button>
+    </section>
+</body>
+
+<script>
+
+    // const body = document.querySelector('body')
+    // body.addEventListener('load', applySquareColor())
+
+    function applySquareColor(color = undefined) {
+
+        const colorPanel = document.querySelector('.figure-container')
+        
+        if (color)
+            return colorPanel.style.backgroundColor = color
+        
+        colorPanel.style.backgroundColor = `${generateColor()}`
+        
+    }
+
+    function generateColor(){
+        let red = generateRGBNumber()
+        let green = generateRGBNumber()
+        let blue = generateRGBNumber()
+
+        return `rgb(${red}, ${green}, ${blue})`
+    }
+
+    function generateRGBNumber(){
+        return parseInt(Math.random() * 256)
+    }
+
+    const btnConsultaAPI = document.querySelector('#btnConsultaAPI')
+    btnConsultaAPI.addEventListener('click', atualizaCor)
+
+    function atualizaCor(){
+        const url = `https://www.thecolorapi.com/id?rgb=${generateColor()})`
+
+        fetch(url)
+        .then((response => response.json()))
+        .then((data) => {
+            applySquareColor(data.rgb.value)
+
+            const gameSection = document.getElementById('game-section')
+
+            gameSection.childNodes.forEach((item) => {
+                delete item
+            })
+            
+            data.name.value.split('').forEach((letter, index) => {
+                const inputGame = document.createElement('input')
+                inputGame.setAttribute('id', `input-game-${index}`)
+                inputGame.setAttribute('maxlength', 1)
+                inputGame.classList.add('input-game-letter')
+                inputGame.addEventListener('keyup', alteraFocus)
+                gameSection.appendChild(inputGame)
+
+            })
+
+            document.querySelector('#teste-resposta').innerHTML = data.name.value
+        })
+    }
+
+    function alteraFocus(e){
+
+        if (e.target.maxLength == 1 && e.keyCode != 8){
+            e.target.nextElementSibling.focus()
+        } else if(e.keyCode == 8 && e.target.id.split('-')[2] != 0){
+            e.target.previousElementSibling.focus()
+        }
+
+    }
+
+    
+</script>
+</html>
