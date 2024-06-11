@@ -12,9 +12,8 @@
         <figure class="figure-container"></figure>
 
         <div class="container-flex">
-            <input type="text" class="input-color"/>
-            <button id="enviarResposta">Enviar</button>
-            <button id="btnConsultaAPI">Consultar API</button>
+            <input id="inputResposta" type="text" class="input-color"/>
+            <button id="btnResposta">Enviar</button>
         </div>
         
         <div>Resposta Teste:</div>
@@ -29,8 +28,7 @@
 
 <script>
 
-    // const body = document.querySelector('body')
-    // body.addEventListener('load', applySquareColor())
+    var respostaNomeCor
 
     function applySquareColor(color = undefined) {
 
@@ -55,8 +53,11 @@
         return parseInt(Math.random() * 256)
     }
 
-    const btnConsultaAPI = document.querySelector('#btnConsultaAPI')
-    btnConsultaAPI.addEventListener('click', atualizaCor)
+    // const btnConsultaAPI = document.querySelector('#btnConsultaAPI')
+    // btnConsultaAPI.addEventListener('click', atualizaCor)
+
+    const body = document.querySelector('body')
+    body.addEventListener('load', atualizaCor())
 
     function atualizaCor(){
         const url = `https://www.thecolorapi.com/id?rgb=${generateColor()})`
@@ -73,6 +74,8 @@
             gameSectionInputList.forEach((item) => {
                 item.remove()
             })
+
+            respostaNomeCor = data.name.value
             
             data.name.value.split('').forEach((letter, index) => {
                 const inputGame = document.createElement('input')
@@ -100,6 +103,20 @@
         } else if(e.keyCode == 8 && e.target.id.split('-')[2] != 0){
             e.target.previousElementSibling.focus()
         }
+
+    }
+
+    let btnResposta = document.querySelector('#btnResposta')
+    btnResposta.addEventListener('click', enviarResposta)
+
+    function enviarResposta(){
+        let inputResposta = document.querySelector('#inputResposta').value
+
+        respostaNomeCor.split('').forEach((item, index) => {
+            if (item.toLowerCase() === inputResposta.toLowerCase()){
+                document.querySelectorAll('#game-section input')[index].value = inputResposta
+            }
+        })
 
     }
 
