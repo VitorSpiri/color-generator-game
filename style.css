@@ -18,14 +18,25 @@ body{
     gap: 1rem;
 }
 
-.figure-container{
+.guess-color-section{
+
+}
+
+.guess-color-figure{
     width: 230px;
     height: 230px;
     background-color: black;
 }
 
-.input-color{
-    height: 2rem;
+.guess-color-input{
+    text-align: center;
+    background: transparent;
+    width: 50px;
+    border: 1px solid;
+    border-radius: 6px;
+    font-size: 18px;
+    height: 50px;
+    text-transform: uppercase;
 }
 
 #game-section{
@@ -49,4 +60,7 @@ body{
 
 .container-flex{
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
 }

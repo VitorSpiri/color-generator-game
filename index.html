@@ -8,13 +8,12 @@
 </head>
 
 <body>
-    <section class="grid-section">
-        <figure class="figure-container"></figure>
+    <section class="guess-color-section grid-section">
+        <h1>Adivinhe a cor abaixo:</h1>
+        <figure class="guess-color-figure"></figure>
 
-        <div class="container-flex">
-            <input id="inputResposta" type="text" class="input-color"/>
-            <button id="btnResposta">Enviar</button>
-        </div>
+        <input id="inputResposta" class="guess-color-input" type="text" maxlength="1"/>
+        <button id="btnResposta" class="guess-color-button">Enviar</button>
         
         <div>Resposta Teste:</div>
         <div id="teste-resposta"></div>
@@ -28,39 +27,19 @@
 
 <script>
 
-    var respostaNomeCor
-
-    function applySquareColor(color = undefined) {
-
-        const colorPanel = document.querySelector('.figure-container')
-        
-        if (color)
-            return colorPanel.style.backgroundColor = color
-        
-        colorPanel.style.backgroundColor = `${generateColor()}`
-        
-    }
-
-    function generateColor(){
-        let red = generateRGBNumber()
-        let green = generateRGBNumber()
-        let blue = generateRGBNumber()
-
-        return `rgb(${red}, ${green}, ${blue})`
-    }
-
-    function generateRGBNumber(){
-        return parseInt(Math.random() * 256)
-    }
-
-    // const btnConsultaAPI = document.querySelector('#btnConsultaAPI')
-    // btnConsultaAPI.addEventListener('click', atualizaCor)
-
     const body = document.querySelector('body')
-    body.addEventListener('load', atualizaCor())
+    body.addEventListener('load', generateSquareColor())
 
-    function atualizaCor(){
-        const url = `https://www.thecolorapi.com/id?rgb=${generateColor()})`
+    let btnResposta = document.querySelector('#btnResposta') 
+    let inputResposta = document.querySelector('#inputResposta') 
+    let respostaNomeCor = ""
+    
+    inputResposta.focus()
+
+    function generateSquareColor(){
+
+
+        const url = `https://www.thecolorapi.com/id?rgb=${generateRGBColor()})`
 
         fetch(url)
         .then((response => response.json()))
@@ -95,6 +74,30 @@
             document.querySelector('#teste-resposta').innerHTML = data.name.value
         })
     }
+       
+    function generateRGBNumber(){
+        return parseInt(Math.random() * 256)
+    }
+
+    function generateRGBColor(){
+        let red = generateRGBNumber()
+        let green = generateRGBNumber()
+        let blue = generateRGBNumber()
+
+        return `rgb(${red}, ${green}, ${blue})`
+    }
+
+
+    function applySquareColor(color = undefined) {
+
+        const colorPanel = document.querySelector('.guess-color-figure')
+        
+        if (color)
+            return colorPanel.style.backgroundColor = color
+        
+        colorPanel.style.backgroundColor = `${generateRGBColor()}`
+        
+    }
 
     function alteraFocus(e){
 
@@ -106,15 +109,12 @@
 
     }
 
-    let btnResposta = document.querySelector('#btnResposta')
-    btnResposta.addEventListener('click', enviarResposta)
-
     function enviarResposta(){
-        let inputResposta = document.querySelector('#inputResposta').value
+        let resposta = inputResposta.value
 
         respostaNomeCor.split('').forEach((item, index) => {
-            if (item.toLowerCase() === inputResposta.toLowerCase()){
-                document.querySelectorAll('#game-section input')[index].value = inputResposta
+            if (item.toLowerCase() === resposta.toLowerCase()){
+                document.querySelectorAll('#game-section input')[index].value = resposta
             }
         })
 
