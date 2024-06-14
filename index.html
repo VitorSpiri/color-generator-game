@@ -28,17 +28,21 @@
 <script>
 
     const body = document.querySelector('body')
-    body.addEventListener('load', generateSquareColor())
-
     let btnResposta = document.querySelector('#btnResposta') 
     let inputResposta = document.querySelector('#inputResposta') 
     let respostaNomeCor = ""
+    let respostasUtilizadas = []
     
+    body.addEventListener('load', generateSquareColor())
+    btnResposta.addEventListener('click', enviarResposta)
+    inputResposta.addEventListener('keypress', validateEnterKey)
     inputResposta.focus()
 
+
+    
     function generateSquareColor(){
 
-
+        respostasUtilizadas = []
         const url = `https://www.thecolorapi.com/id?rgb=${generateRGBColor()})`
 
         fetch(url)
@@ -63,9 +67,9 @@
                 inputGame.classList.add('input-game-letter')
                 inputGame.addEventListener('keyup', alteraFocus)
                 gameSection.appendChild(inputGame)
+                inputGame.disabled = true
                 
                 if (letter === " "){
-                    inputGame.disabled = true
                     inputGame.value = '-'
                 }
 
@@ -112,14 +116,34 @@
     function enviarResposta(){
         let resposta = inputResposta.value
 
+        if (respostaRepetida(resposta))
+            return alert('Letra já utilizada')
+
         respostaNomeCor.split('').forEach((item, index) => {
             if (item.toLowerCase() === resposta.toLowerCase()){
                 document.querySelectorAll('#game-section input')[index].value = resposta
+                respostasUtilizadas.push(resposta)
             }
         })
 
     }
+    
+    function validateEnterKey(e){
+        if (e.key === "Enter" && inputResposta.maxLength === 1){
+            enviarResposta()
+        }
+    }
 
+    function respostaRepetida(resposta){
+        let validacao = false
+
+        respostasUtilizadas.forEach((item) => {
+            if(item == resposta)
+                validacao = true        
+        })
+
+        return validacao
+    }
     
 </script>
 </html>
